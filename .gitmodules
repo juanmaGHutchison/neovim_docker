@@ -1,0 +1,54 @@
+[submodule "nvim_submodule"]
+	path = nvim_submodule
+	url = https://github.com/neovim/neovim.git
+[submodule "packer_submodule"]
+	path = packer_submodule
+	url = https://github.com/wbthomason/packer.nvim.git
+[submodule "telescope_submodule"]
+	path = telescope_submodule
+	url = https://github.com/nvim-telescope/telescope.nvim.git
+[submodule "treesitter_submodule"]
+	path = treesitter_submodule
+	url = https://github.com/nvim-treesitter/nvim-treesitter.git
+[submodule "harpoon_submodule"]
+	path = harpoon_submodule
+	url = https://github.com/ThePrimeagen/harpoon.git
+[submodule "undotree_submodule"]
+	path = undotree_submodule
+	url = https://github.com/mbbill/undotree.git
+[submodule "fugitive_submodule"]
+	path = fugitive_submodule
+	url = https://github.com/tpope/vim-fugitive.git
+[submodule "lsp_submodule"]
+	path = lsp_submodule
+	url = https://github.com/VonHeikemen/lsp-zero.nvim.git
+[submodule "plenary_submodule"]
+	path = plenary_submodule
+	url = https://github.com/nvim-lua/plenary.nvim.git
+[submodule "rose-pine_submodule"]
+	path = rose-pine_submodule
+	url = https://github.com/rose-pine/neovim.git
+[submodule "mason_submodule"]
+	path = mason_submodule
+	url = https://github.com/mason-org/mason.nvim.git
+[submodule "mason-lspconfig_submodule"]
+	path = mason-lspconfig_submodule
+	url = https://github.com/mason-org/mason-lspconfig.nvim.git
+[submodule "lspconfig_submodule"]
+	path = lspconfig_submodule
+	url = https://github.com/neovim/nvim-lspconfig.git
+[submodule "cmp-lsp_submodule"]
+	path = cmp-lsp_submodule
+	url = https://github.com/hrsh7th/cmp-nvim-lsp.git
+[submodule "luasnip_submodule"]
+	path = luasnip_submodule
+	url = https://github.com/L3MON4D3/LuaSnip.git
+[submodule "friendly-snippets_submodule"]
+	path = friendly-snippets_submodule
+	url = https://github.com/rafamadriz/friendly-snippets.git
+[submodule "cmp_submodule"]
+	path = cmp_submodule
+	url = https://github.com/hrsh7th/nvim-cmp.git
+[submodule "cmp_path_submodule"]
+	path = cmp_path_submodule
+	url = https://github.com/hrsh7th/cmp-path.git
