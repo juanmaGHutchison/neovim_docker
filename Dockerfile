@@ -4,8 +4,10 @@ ARG NVIM_SRC=/tmp
 ARG NVIM_REPO_DIR=nvim
 ARG USER_DIR=/root
 ARG CONFIG_NVIM=$USER_DIR/.config
-ARG NVIM_PLUGIN_PATH=$USER_DIR/.local/share/$NVIM_REPO_DIR
+ARG USER_HOME_LOCAL=$USER_DIR/.local
+ARG NVIM_PLUGIN_PATH=$USER_HOME_LOCAL/share/$NVIM_REPO_DIR
 ARG PACKER_START=$NVIM_PLUGIN_PATH/site/pack/packer/start
+
 ARG SUBMODULES_DIR=./submodules
 
 COPY $SUBMODULES_DIR/nvim_submodule $NVIM_SRC
@@ -31,14 +33,28 @@ COPY $SUBMODULES_DIR/friendly-snippets_submodule $PACKER_START/friendly-snippets
 
 
 RUN 	apt update && apt install -y --no-install-recommends \
-		unzip tar build-essential cmake git curl ca-certificates ripgrep && \
+		unzip tar build-essential cmake git curl ca-certificates ripgrep inotify-tools && \
 	update-ca-certificates
 
 RUN 	cd $NVIM_SRC && \
 	make CMAKE_BUILD_TYPE=ReWithDebInfo && \
 	make install && \
-	chmod 775 $CONFIG_NVIM
+	chmod 777 \
+		$CONFIG_NVIM \
+		$HOME
 
 RUN	nvim --headless +'autocmd User PackerComplete quitall' +PackerSync +qa && \
 	nvim --headless -c 'MasonInstall clangd' -c 'qa' && \
 	nvim --headless -c 'TSUpdate' -c 'qa'
+
+RUN 	mkdir -p \
+		$NVIM_PLUGIN_PATH \
+		$USER_HOME_LOCAL/state/$NVIM_REPO_DIR \
+		$USER_HOME_LOCAL/cache/$NVIM_REPO_DIR \
+		$CONFIG_NVIM/$NVIM_REPO_DIR && \
+	chmod -R 777 \
+		$CONFIG_NVIM/$NVIM_REPO_DIR \
+		$NVIM_PLUGIN_PATH \
+		$USER_HOME_LOCAL
+
+CMD ["nvim"]
