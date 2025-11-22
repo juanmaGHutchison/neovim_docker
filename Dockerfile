@@ -30,7 +30,7 @@ COPY $SUBMODULES_DIR/cmp_path_submodule $PACKER_START/cmp-path
 COPY $SUBMODULES_DIR/cmp-lsp_submodule $PACKER_START/cmp-nvim-lsp
 COPY $SUBMODULES_DIR/luasnip_submodule $PACKER_START/LuaSnip
 COPY $SUBMODULES_DIR/friendly-snippets_submodule $PACKER_START/friendly-snippets
-
+COPY $SUBMODULES_DIR/git-blame_submodule $PACKER_START/git-blame.nvim
 
 RUN 	apt update && apt install -y --no-install-recommends \
 		unzip tar build-essential cmake git curl ca-certificates ripgrep inotify-tools && \
