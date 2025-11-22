@@ -75,6 +75,7 @@ Use these shortcuts directly in the Dockerized Neovim environment or from your h
 ***NOTE:***
 - ***`<leader>` is mapped to `Space`.***
 - ***`<C-..>` is `Ctrl` keycap.***
+- ***`<A-..>` is `Alt` keycap.***
 
 ### LSP & Completion Shortcuts
 | Mode | Shortcut | Action |
@@ -110,10 +111,10 @@ These shortcuts leverage [vim-fugitive](https://github.com/tpope/vim-fugitive) t
 |--------|----------------|-----------------------------------------|
 | Normal | `<leader>a`    | Add current file to Harpoon bookmarks   |
 | Normal | `<C-e>`        | Toggle Harpoon quick menu               |
-| Normal | `C-h`          | Navigate to Harpoon file 1              |
-| Normal | `C-t`          | Navigate to Harpoon file 2              |
-| Normal | `C-n`          | Navigate to Harpoon file 3              |
-| Normal | `C-h`          | Navigate to Harpoon file 4              |
+| Normal | `A-h`          | Navigate to Harpoon file 1              |
+| Normal | `A-t`          | Navigate to Harpoon file 2              |
+| Normal | `A-n`          | Navigate to Harpoon file 3              |
+| Normal | `A-h`          | Navigate to Harpoon file 4              |
 
 **Description:**  
 These shortcuts use [Harpoon](https://github.com/ThePrimeagen/harpoon) to quickly mark and navigate between frequently used files within the workspace.
@@ -159,6 +160,28 @@ This setup uses [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesi
 - Synchronous installation is disabled (`sync_install = false`)  
 - Highlights are enabled with minimal overlap with standard Vim syntax highlighting (`additional_vim_regex_highlighting = false`)
 
+---
+## Copilot plugin
+GitHub Copilot is installed and enabled in this Neovim environment, but each user must authenticate with their own GitHub account the first time they use it.
+
+### Authentication (TODO: Test)
+When opening Neovim for the first time, Copilot shall manually be authenticated. This is done by opening `nvim` and typing `:Copilot setup`. Then, follow the provided steps.
+
+Copilot stores authentication tokens in:
+- `~/.config/github-copilot`
+- `~/.local/state/nvim/copilot`
+
+Because this environment runs inside a Docker container, these paths start fresh unless you persist them. To perform so, do the following:
+```bash
+# Edit scripts nvim.sh and add these volumes
+docker run \
+...
+-v ~/.copilot-auth:/root/.config/github-copilot \
+-v ~/.copilot-state:/root/.local/state/nvim/copilot \
+...
+```
+
+This will keep the authentication across container runs.
 
 ---
 

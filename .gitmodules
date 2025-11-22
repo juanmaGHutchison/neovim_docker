@@ -55,3 +55,6 @@
 [submodule "submodules/git-blame_submodule"]
 	path = submodules/git-blame_submodule
 	url = https://github.com/f-person/git-blame.nvim.git
+[submodule "submodules/copilot_submodule"]
+	path = submodules/copilot_submodule
+	url = https://github.com/github/copilot.vim.git
