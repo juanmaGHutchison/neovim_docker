@@ -21,34 +21,18 @@ function urcf_get_variable() {
 declare DOCKER_CONF="${CONF_rcf_DIR}/docker.conf"
 
 function urcf_get_dockerfiles_dir() {
-    urcf_get_variable "${DOCKER_CONF}" "DOCKERFILES_DIR"
+    urcf_get_variable "${DOCKER_CONF}" "DOCKERFILE_DIR"
 }
 
-function urcf_get_builder_dockerfile() {
-    urcf_get_variable "${DOCKER_CONF}" "DOCKERFILE_BUILDER"
-}
-
-function urcf_get_c_dockerfile() {
-    urcf_get_variable "${DOCKER_CONF}" "DOCKERFILE_C"
-}
-
-function urcf_get_post_dockerfile() {
-    urcf_get_variable "${DOCKER_CONF}" "DOCKERFILE_POST"
-}
-
-function urcf_get_docker_base_image() {
-    urcf_get_variable "${DOCKER_CONF}" "DOCKER_BASE_IMAGE"
+function urcf_get_docker_builder_image_name() {
+	urcf_get_variable "${DOCKER_CONF}" "DOCKER_IMAGE_NAME"
 }
 
 function urcf_get_docker_default_tag() {
     urcf_get_variable "${DOCKER_CONF}" "DOCKER_DEFAULT_TAG"
 }
 
-function urcf_get_docker_builder_image_name() {
-	urcf_get_variable "${DOCKER_CONF}" "DOCKER_BUILDER_IMAGE_NAME"
-}
-
-function urcf_get_docker_c_image_name() {
-	urcf_get_variable "${DOCKER_CONF}" "DOCKER_C_IMAGE_NAME"
+function urcf_get_undodir_host() {
+	urcf_get_variable "${DOCKER_CONF}" "DOCKER_UNDODIR"
 }
 

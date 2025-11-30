@@ -1,5 +1,6 @@
-ARG BASE_IMAGE="debian"
-FROM ${BASE_IMAGE}
+#ARG BASE_IMAGE="debian:bookworm-slim"
+#FROM ${BASE_IMAGE} AS builder
+FROM debian:bookworm-slim AS builder
 
 ARG RESOURCES_DIR=./resources
 
@@ -38,7 +39,7 @@ COPY $SUBMODULES_DIR/git-blame_submodule $PACKER_START/git-blame.nvim
 COPY $SUBMODULES_DIR/copilot_submodule $PACKER_START/copilot.vim
 
 RUN apt update && apt install -y --no-install-recommends \
-		unzip tar build-essential cmake git curl ca-certificates && \
+		unzip tar build-essential npm cmake git curl ca-certificates && \
 	update-ca-certificates
 
 RUN cd $NVIM_SRC && \
@@ -48,8 +49,37 @@ RUN cd $NVIM_SRC && \
 		$CONFIG_NVIM \
 		$HOME
 
-# TODO: que parte es la que especifica que instalo C tools
 RUN	nvim --headless +'autocmd User PackerComplete quitall' +PackerSync +qa && \
 	nvim --headless -c 'MasonInstall clangd' -c 'qa' && \
-	nvim --headless -c 'TSUpdate' -c 'qa'
+	nvim --headless -c 'MasonInstall pyright' -c 'qa' && \
+	nvim --headless -c 'TSUpdateSync c cpp python lua bash dockerfile ruby' -c 'qa'
+
+#ARG BASE_IMAGE="debian:bookworm-slim"
+#FROM $BASE_IMAGE
+FROM node:22-bookworm-slim
+
+ARG NVIM_METADATA=nvim
+ARG ROOT_HOME=/root
+ARG ROOT_LOCAL=$ROOT_HOME/.local
+ARG ROOT_CONFIG=$ROOT_HOME/.config
+ARG NVIM_PLUGIN_PATH=$ROOT_LOCAL/share/nvim
+ARG USR_LOCAL="/usr/local"
+
+#RUN	curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
+#	apt update && \
+#	apt install -y --no-install-recommends \
+#		ripgrep nodejs curl git xz-utils gcc g++ make
+RUN	apt update && \
+	apt install -y --no-install-recommends \
+		ripgrep curl git xz-utils gcc g++ make
+
+COPY --from=builder ${USR_LOCAL}/bin/nvim ${USR_LOCAL}/bin/nvim
+COPY --from=builder ${USR_LOCAL}/share/nvim ${USR_LOCAL}/share/nvim
+COPY --from=builder /root/.config/nvim ${ROOT_HOME}/.config/nvim
+COPY --from=builder /root/.local ${ROOT_HOME}/.local
+
+RUN	mkdir -p ${ROOT_HOME}/.local/state/nvim/undo && \
+	chmod -R 777 ${ROOT_HOME}
+
+CMD ["nvim"]
 
