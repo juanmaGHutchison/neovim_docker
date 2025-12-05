@@ -58,3 +58,12 @@
 [submodule "submodules/copilot_submodule"]
 	path = docker/resources/submodules/copilot_submodule
 	url = https://github.com/github/copilot.vim.git
+[submodule "docker/resources/submodules/schemastore_submodule"]
+	path = docker/resources/submodules/schemastore_submodule
+	url = https://github.com/b0o/SchemaStore.nvim.git
+[submodule "docker/resources/submodules/flash_submodule"]
+	path = docker/resources/submodules/flash_submodule
+	url = https://github.com/folke/flash.nvim.git
+[submodule "docker/resources/submodules/dotenv_submodule"]
+	path = docker/resources/submodules/dotenv_submodule
+	url = https://github.com/tpope/vim-dotenv.git

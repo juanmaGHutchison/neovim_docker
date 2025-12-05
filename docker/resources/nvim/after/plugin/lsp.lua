@@ -3,8 +3,58 @@ local cmp = require('cmp')
 
 require('mason').setup({})
 require('mason-lspconfig').setup({
-	ensure_installed = {'clangd'},
+	ensure_installed = {
+        'clangd',
+        'bashls',
+        'jsonls',
+        'yamlls',
+    },
 })
+
+vim.lsp.config.bashls = {
+    cmd = { 'bash-language-server', 'start' },
+    filetypes = { 'bash', 'sh' },
+    capabilities = vim.lsp.protocol.make_client_capabilities(),
+}
+vim.lsp.enable 'bashls'
+vim.diagnostic.config({
+    virtual_text = {
+        prefix = false,
+        source = "always",
+    },
+    signs = true,
+    underline = true,
+    update_in_insert = false,
+})
+
+vim.lsp.config.jsonls = {
+    cmd = { "vscode-json-language-server", "--stdio" },
+    filetypes = { "json", "jsonc" },
+    settings = {
+        json = {
+            schemas = require("schemastore").json.schemas(),
+            validate = { enable = true },
+        },
+    },
+}
+
+vim.lsp.enable("jsonls")
+
+vim.lsp.config.yamlls = {
+    cmd = { "yaml-language-server", "--stdio" },
+    filetypes = { "yaml", "yml" },
+    settings = {
+        keyOrdering = false,
+        format = { enable = true },
+        hover = true,
+        schemastore = {
+            enable = true,
+            url = "https://www.schemastore.org/api/json/catalog.json"
+        },
+    },
+}
+
+vim.lsp.enable("yamlls")
 
 local cmp_select = {behaviour = cmp.SelectBehavior.Select}
 local cmp_mappings = cmp.mapping.preset.insert({

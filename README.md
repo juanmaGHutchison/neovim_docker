@@ -184,16 +184,22 @@ docker run \
 This will keep the authentication across container runs.
 
 ---
+## Clipboard
+X11 clipboard is set to share it with a X11 host. This is configurable by setting to `yes|no` variable `ENABLE_X11_CLIPBOARD` on `docker.conf` file.
 
+NOTE: The clipboard needs access to the DISPLAY server. This is already configured when enabling it.
+
+---
 ## Known Issues
-
-- When opening certain paths in the root filesystem, `Netrw` may not display correctly. Use `<leader>pf` (fuzzy finder) as a workaround.  
+NOTHING by the moment.
 
 ---
 
 ## Limitations
 
 - Paths outside the mounted volume may not be accessible or navigable in `Netrw`. Notice that the mounted volume is the opened directory in `dnvim`:
+- .env files: ENV files are being processed by Bashls, just ignore appearing warnings.
+- flash plugin: Flash plugin search is limited to search in the current screen, not further. For a secure search use default VIM search.
 
 ```bash
 dnvim /home/user/a_folder/b_folder

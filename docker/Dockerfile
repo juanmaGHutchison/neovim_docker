@@ -1,5 +1,3 @@
-#ARG BASE_IMAGE="debian:bookworm-slim"
-#FROM ${BASE_IMAGE} AS builder
 FROM debian:bookworm-slim AS builder
 
 ARG RESOURCES_DIR=./resources
@@ -37,6 +35,9 @@ COPY $SUBMODULES_DIR/luasnip_submodule $PACKER_START/LuaSnip
 COPY $SUBMODULES_DIR/friendly-snippets_submodule $PACKER_START/friendly-snippets
 COPY $SUBMODULES_DIR/git-blame_submodule $PACKER_START/git-blame.nvim
 COPY $SUBMODULES_DIR/copilot_submodule $PACKER_START/copilot.vim
+COPY $SUBMODULES_DIR/schemastore_submodule $PACKER_START/SchemaStore.nvim
+COPY $SUBMODULES_DIR/flash_submodule $PACKER_START/flash.nvim
+COPY $SUBMODULES_DIR/dotenv_submodule $PACKER_START/vim-dotenv
 
 RUN apt update && apt install -y --no-install-recommends \
 		unzip tar build-essential npm cmake git curl ca-certificates && \
@@ -50,12 +51,12 @@ RUN cd $NVIM_SRC && \
 		$HOME
 
 RUN	nvim --headless +'autocmd User PackerComplete quitall' +PackerSync +qa && \
-	nvim --headless -c 'MasonInstall clangd' -c 'qa' && \
-	nvim --headless -c 'MasonInstall pyright' -c 'qa' && \
-	nvim --headless -c 'TSUpdateSync c cpp python lua bash dockerfile ruby' -c 'qa'
+	nvim --headless -c \
+        'MasonInstall clangd pyright bash-language-server json-lsp yaml-language-server' \
+        -c 'qa' && \
+	nvim --headless -c 'TSUpdateSync c cpp python lua vimdoc vim bash dockerfile ruby json yaml markdown markdown_inline' -c 'qa' && \
+    nvim --headless +TSUpdate +qall
 
-#ARG BASE_IMAGE="debian:bookworm-slim"
-#FROM $BASE_IMAGE
 FROM node:22-bookworm-slim
 
 ARG NVIM_METADATA=nvim
@@ -65,13 +66,10 @@ ARG ROOT_CONFIG=$ROOT_HOME/.config
 ARG NVIM_PLUGIN_PATH=$ROOT_LOCAL/share/nvim
 ARG USR_LOCAL="/usr/local"
 
-#RUN	curl -fsSL https://deb.nodesource.com/setup_22.x | bash - && \
-#	apt update && \
-#	apt install -y --no-install-recommends \
-#		ripgrep nodejs curl git xz-utils gcc g++ make
 RUN	apt update && \
 	apt install -y --no-install-recommends \
-		ripgrep curl git xz-utils gcc g++ make
+		ripgrep xclip curl git xz-utils gcc g++ make shellcheck ca-certificates && \
+	update-ca-certificates
 
 COPY --from=builder ${USR_LOCAL}/bin/nvim ${USR_LOCAL}/bin/nvim
 COPY --from=builder ${USR_LOCAL}/share/nvim ${USR_LOCAL}/share/nvim
@@ -79,6 +77,7 @@ COPY --from=builder /root/.config/nvim ${ROOT_HOME}/.config/nvim
 COPY --from=builder /root/.local ${ROOT_HOME}/.local
 
 RUN	mkdir -p ${ROOT_HOME}/.local/state/nvim/undo && \
+    echo "disable=SC2155,SC1090,SC1091" > ${ROOT_HOME}/.config/shellcheckrc && \
 	chmod -R 777 ${ROOT_HOME}
 
 CMD ["nvim"]

@@ -4,13 +4,23 @@
 vim.cmd [[packadd packer.nvim]]
 
 return require('packer').startup(function(use)
-  -- Packer can manage itself
   use 'wbthomason/packer.nvim'
-
   use 'github/copilot.vim'
-
   use 'f-person/git-blame.nvim'
-
+  use 'b0o/SchemaStore.nvim'
+  use 'tpope/vim-dotenv'
+  use({
+    "folke/flash.nvim",
+    tag = "v2.1.0",
+    config = function()
+        require("flash").setup({
+            modes = {
+                search = { enabled = true },
+                char = { jump_labels = true },
+            },
+        })
+    end,
+  })
   use {
 	  'nvim-telescope/telescope.nvim', tag = '0.1.6',
 	  -- or                            , branch = '0.1.x',

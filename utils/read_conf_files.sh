@@ -7,7 +7,7 @@ declare BASH_SRC_rcf="$(dirname "${BASH_SOURCE[0]}")"
 declare CONF_rcf_DIR="${BASH_SRC_rcf}/../conf"
 
 ####################### GLOBAL VARIABLES
-declare ROOT_REPO_DIR="$(readlink -f ${BASH_SRC_du}/..)"
+declare ROOT_REPO_DIR="$(readlink -f "${BASH_SRC_du}/..")"
 
 ####################### COMMON FUNCTIONS
 function urcf_get_variable() {
@@ -36,3 +36,6 @@ function urcf_get_undodir_host() {
 	urcf_get_variable "${DOCKER_CONF}" "DOCKER_UNDODIR"
 }
 
+function urcf_use_x11_clipboard() {
+    urcf_get_variable "${DOCKER_CONF}" "ENABLE_X11_CLIPBOARD"
+}
