@@ -32,7 +32,8 @@ function du_run() {
     local enable_x11="$(urcf_use_x11_clipboard)"
     local x11_docker_opts
 
-	[ -f "${path_mnt}" ] && path_mnt="$(dirname "${path_mnt}")"
+	[ -f "${path_to_open}" ] && path_mnt="$(dirname "${path_mnt}")"
+    [ ! -e "${path_to_open}" ] && path_mnt="$(pwd)"
     if [ "${enable_x11}" == "yes" ]; then
 	    local x11_tmp="/tmp/.X11-unix"
         xhost +local:docker
