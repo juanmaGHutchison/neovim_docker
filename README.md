@@ -1,6 +1,6 @@
 # Dockerized Neovim Setup
 
-This repository provides a portable Docker-based Neovim setup with custom configurations, plugins, and shortcuts pre-installed. The setup allows users to run Neovim with your preferred environment without requiring local installation of Neovim or plugins.  
+This repository provides a portable-offline Docker-based Neovim setup with custom configurations, plugins, and shortcuts pre-installed. The setup allows users to run Neovim with your preferred environment without requiring local installation of Neovim. 
 
 ## Features
 
@@ -95,6 +95,15 @@ Use these shortcuts directly in the Dockerized Neovim environment or from your h
 | Insert | **`<C-y>`** | Confirm selected completion item |
 | Insert | **`<C-Space>`** | Trigger completion menu |
 
+#### Languages support
+The following languages LSP are configured in this Docker image:
+
+- C/C++
+- Python
+- Bash
+- JSON
+- YAML
+
 ### Git Integration (Fugitive)
 
 | Mode | Shortcut        | Action                         |
@@ -105,7 +114,7 @@ Use these shortcuts directly in the Dockerized Neovim environment or from your h
 These shortcuts leverage [vim-fugitive](https://github.com/tpope/vim-fugitive) to perform Git operations directly from Neovim.  
 
 
-### File Navigation (Harpoon)
+### Fast File Navigation (Harpoon)
 
 | Mode   | Shortcut       | Action                                   |
 |--------|----------------|-----------------------------------------|
@@ -142,7 +151,19 @@ These shortcuts use [Telescope](https://github.com/nvim-telescope/telescope.nvim
 This maps the `<leader>u` key to open or close the [undotree](https://github.com/mbbill/undotree) visualizer, which allows you to browse and revert to previous states of the current buffer.
 
 ---
+### Flash.nvim Plugin
 
+This project uses [**flash.nvim**](https://github.com/folke/flash.nvim) to provide fast, interactive navigation in buffers.
+
+| Mode             | Key         | Description                             |
+|-----------------|------------|-----------------------------------------|
+| Normal (`n`)     | `<leader>/` | Jump to any location in the current buffer using Flash.nvim. |
+| Visual (`x`)     | `<leader>/` | Jump within the selected region.        |
+| Operator-pending (`o`) | `<leader>/` | Jump as part of an operator command.   |
+
+When you press `<leader>/`, Flash.nvim will display jump targets, allowing you to quickly navigate to any point in your code or text without leaving the home row.
+
+---
 ## Syntax Highlighting & Parsing (nvim-treesitter)
 
 **Description:**  
