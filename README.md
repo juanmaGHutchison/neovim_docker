@@ -185,24 +185,13 @@ This setup uses [nvim-treesitter](https://github.com/nvim-treesitter/nvim-treesi
 ## Copilot plugin
 GitHub Copilot is installed and enabled in this Neovim environment, but each user must authenticate with their own GitHub account the first time they use it.
 
-### Authentication (TODO: Test)
+### Authentication
 When opening Neovim for the first time, Copilot shall manually be authenticated. This is done by opening `nvim` and typing `:Copilot setup`. Then, follow the provided steps.
 
 Copilot stores authentication tokens in:
 - `~/.config/github-copilot`
-- `~/.local/state/nvim/copilot`
 
-Because this environment runs inside a Docker container, these paths start fresh unless you persist them. To perform so, do the following:
-```bash
-# Edit scripts nvim.sh and add these volumes
-docker run \
-...
--v ~/.copilot-auth:/root/.config/github-copilot \
--v ~/.copilot-state:/root/.local/state/nvim/copilot \
-...
-```
-
-This will keep the authentication across container runs.
+The setup is prepared to persist Copilot keys among the lifetime of the docker volume, automatically created when launching `NeoVim` the first time. The volume name is `nvim_copilot`.
 
 ---
 ## Clipboard

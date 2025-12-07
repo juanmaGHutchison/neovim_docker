@@ -8,6 +8,10 @@ declare CONF_REPO="${BASH_SRC_du}/../conf"
 
 source "${BASH_SRC_du}/read_conf_files.sh"
 
+
+####################### GLOBAL CONSTANTS
+declare COPILOT_VOLUME_NAME="nvim_copilot"
+
 ####################### FUNCTIONS
 function du_get_dockerfiles_dir() {
     echo "${ROOT_REPO_DIR}/$(urcf_get_dockerfiles_dir)"
@@ -20,6 +24,13 @@ function du_get_docker_image_name() {
 
 function du_get_undodir_host_volume() {
     echo "${CONF_REPO}/$(urcf_get_undodir_host)" 
+}
+
+function du_create_copilot_volume() {
+    ! docker volume inspect "${COPILOT_VOLUME_NAME}" > /dev/null 2>&1 &&
+        docker volume create "${COPILOT_VOLUME_NAME}"
+
+    return 0
 }
 
 function du_run() {
@@ -41,9 +52,12 @@ function du_run() {
         x11_docker_opts="-v ${x11_tmp}:${x11_tmp} -e DISPLAY=${DISPLAY}"
     fi
 
+    du_create_copilot_volume
+
 	docker run -ti --rm -u "$(id -u):$(id -g)" \
 		-v "${path_mnt}":"${path_mnt}" \
 		-v "${undo_dir_host}":/root/.local/state/nvim/undo \
+        -v "${COPILOT_VOLUME_NAME}":/root/.config/github-copilot \
 		-w "${path_mnt}" \
         ${x11_docker_opts:-} \
 		-e HOME=${docker_user_home} \
