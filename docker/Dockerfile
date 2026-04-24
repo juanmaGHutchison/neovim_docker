@@ -50,12 +50,12 @@ RUN cd $NVIM_SRC && \
 		$CONFIG_NVIM \
 		$HOME
 
-RUN	nvim --headless +'autocmd User PackerComplete quitall' +PackerSync +qa && \
+RUN	nvim --headless -u $NVIM_REPO_DIR "TSUpdateSync" "+qa" && \
 	nvim --headless -c \
         'MasonInstall clangd pyright bash-language-server json-lsp yaml-language-server' \
         -c 'qa' && \
-	nvim --headless -c 'TSUpdateSync c cpp python lua vimdoc vim bash dockerfile ruby json yaml markdown markdown_inline' -c 'qa' && \
-    nvim --headless +TSUpdate +qall
+	nvim --headless -c \
+        'TSUpdateSync c cpp python lua vimdoc vim bash dockerfile ruby json yaml markdown markdown_inline' -c 'qa'
 
 FROM node:22-bookworm-slim
 
